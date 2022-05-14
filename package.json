@@ -1,0 +1,18 @@
+{
+  "name": "code-test",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r   <h1>前端自动化测试</h1>\r   <p>前端自动化测试的实践相关概念的理解，以及测试框架 Jest学习，vue项目，react项目，node应用，e2\r   e测试的实践，形成自己的一套的测试代码 </p>\r </div>",
+  "main": ".eslintrc.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^17.0.0"
+  }
+}
