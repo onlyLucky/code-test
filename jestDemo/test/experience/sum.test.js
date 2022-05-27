@@ -2,7 +2,7 @@
  * @Author: fg
  * @Date: 2022-05-26 17:27:02
  * @LastEditors: fg
- * @LastEditTime: 2022-05-26 19:10:12
+ * @LastEditTime: 2022-05-27 14:12:51
  * @Description: sum.test
  */
 const sum = require('../../src/experience/sum')
