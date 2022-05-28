@@ -183,3 +183,31 @@ test("two plus two is four", () => {
 ```
 
 [匹配器列表查看](https://jestjs.io/zh-Hans/docs/expect)
+
+
+### describe 函数
+
+> 创建一个将几个相关测试组合在一起的块。
+```js
+const myBeverage = {
+  delicious: true,
+  sour: false,
+};
+
+describe('my beverage', () => {
+  test('is delicious', () => {
+    expect(myBeverage.delicious).toBeTruthy();
+  });
+
+  test('is not sour', () => {
+    expect(myBeverage.sour).toBeFalsy();
+  });
+});
+```
+
+- [describe(name, fn)](https://jestjs.io/zh-Hans/docs/api#describename-fn)
+- [describe.each(table)(name, fn, timeout)](https://jestjs.io/zh-Hans/docs/api#describeeachtablename-fn-timeout)
+- [describe.only(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeonlyname-fn)
+- [describe.only.each(table)(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeonlyeachtablename-fn)
+- [describe.skip(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeskipname-fn)
+- [describe.skip.each(table)(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeskipeachtablename-fn)
