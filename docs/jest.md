@@ -211,3 +211,11 @@ describe('my beverage', () => {
 - [describe.only.each(table)(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeonlyeachtablename-fn)
 - [describe.skip(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeskipname-fn)
 - [describe.skip.each(table)(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeskipeachtablename-fn)
+
+
+### 生命周期钩子
+
+- [afterAll(fn, timeout)](https://jestjs.io/zh-Hans/docs/api#afterallfn-timeout)
+- [afterEach(fn, timeout)](https://jestjs.io/zh-Hans/docs/api#aftereachfn-timeout)
+- [beforeAll(fn, timeout)](https://jestjs.io/zh-Hans/docs/api#beforeallfn-timeout)
+- [beforeEach(fn, timeout)](https://jestjs.io/zh-Hans/docs/api#beforeeachfn-timeout)
