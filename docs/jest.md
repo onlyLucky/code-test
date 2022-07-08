@@ -1,8 +1,3 @@
-
-
-
-
-
 <div align="center">
   <h1>jest使用</h1>
   <p>jest测试框架入门指南</p>
@@ -21,6 +16,9 @@
   - [Expect 匹配器](#expect-匹配器)
   - [describe 函数](#describe-函数)
   - [生命周期钩子](#生命周期钩子)
+- [Jest 中的匹配器](#jest-中的匹配器)
+  - [Using Matchers](#using-matchers)
+  - [expect](#expect)
 
 ## 起步
 
@@ -232,3 +230,47 @@ describe("my beverage", () => {
 - [afterEach(fn, timeout)](https://jestjs.io/zh-Hans/docs/api#aftereachfn-timeout)
 - [beforeAll(fn, timeout)](https://jestjs.io/zh-Hans/docs/api#beforeallfn-timeout)
 - [beforeEach(fn, timeout)](https://jestjs.io/zh-Hans/docs/api#beforeeachfn-timeout)
+
+## Jest 中的匹配器
+
+### Using Matchers
+
+具体 dome example 参考链接
+
+[using-matcher](./../jestDemo/test/experience/using-matcher.test.js)
+
+- common
+
+toBe 可以实现与 expect 是否一致 ，大致上可以判断 number，如果判断一个对象或者数组，可以使用 toEqual
+
+toEqual，可以进行递归检查 object or array 的每一项
+
+- Truthiness 判定
+
+  - toBeNull 匹配 null
+  - toBeUndefined 匹配未定义
+  - toBeDefined 匹配已经定义的值
+  - toBeTruthy 匹配为真的情况
+  - toBeFalsy 匹配为假的情况
+
+- Number 数据类型
+
+  - toBeGreaterThan 大于判断
+  - toBeGreaterThanOrEqual 大于等于判断
+  - toBeLessThan 小于判定
+  - toBeLessThanOrEqual 大于等于判定
+  - toBe / toEqual 都可以做数字,字符串的等于判定
+  - toBeCloseTo 浮点数等于判定
+
+- Strings 字符串类型
+  - toMatch 可以使用正则进行匹配
+
+- Arrays and iterables 数组匹配
+  - toContain 匹配数组中是否存在
+
+- Exceptions 异常
+  - toThrow 匹配异常
+- [更多](https://jestjs.io/zh-Hans/docs/expect)
+
+### expect
+当写测试时，你经常需要检查值是否满足指定的条件。 expect 让您可以访问一些“匹配器”，让您验证不同类型的东西
