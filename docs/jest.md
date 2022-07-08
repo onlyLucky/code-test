@@ -1,3 +1,8 @@
+
+
+
+
+
 <div align="center">
   <h1>jest使用</h1>
   <p>jest测试框架入门指南</p>
@@ -5,8 +10,17 @@
 
 ## 目录
 
-1. [起步](#起步)
-2. [JestAPI](#JestAPI)
+- [目录](#目录)
+- [起步](#起步)
+  - [jest 介绍](#jest-介绍)
+  - [jest 快速体验](#jest-快速体验)
+  - [jest 监视模式](#jest-监视模式)
+  - [使用 ES6 模块](#使用-es6-模块)
+- [JestAPI](#jestapi)
+  - [Test 函数](#test-函数)
+  - [Expect 匹配器](#expect-匹配器)
+  - [describe 函数](#describe-函数)
+  - [生命周期钩子](#生命周期钩子)
 
 ## 起步
 
@@ -184,22 +198,22 @@ test("two plus two is four", () => {
 
 [匹配器列表查看](https://jestjs.io/zh-Hans/docs/expect)
 
-
 ### describe 函数
 
 > 创建一个将几个相关测试组合在一起的块。
+
 ```js
 const myBeverage = {
   delicious: true,
   sour: false,
 };
 
-describe('my beverage', () => {
-  test('is delicious', () => {
+describe("my beverage", () => {
+  test("is delicious", () => {
     expect(myBeverage.delicious).toBeTruthy();
   });
 
-  test('is not sour', () => {
+  test("is not sour", () => {
     expect(myBeverage.sour).toBeFalsy();
   });
 });
@@ -211,7 +225,6 @@ describe('my beverage', () => {
 - [describe.only.each(table)(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeonlyeachtablename-fn)
 - [describe.skip(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeskipname-fn)
 - [describe.skip.each(table)(name, fn)](https://jestjs.io/zh-Hans/docs/api#describeskipeachtablename-fn)
-
 
 ### 生命周期钩子
 
