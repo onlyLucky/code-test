@@ -3,7 +3,7 @@
  * @Author: fg
  * @Date: 2022-07-08 17:21:27
  * @LastEditors: fg
- * @LastEditTime: 2022-07-08 18:11:23
+ * @LastEditTime: 2022-07-09 10:21:49
  * @Description: expect
  */
 /* eslint-disable no-undef */
@@ -17,6 +17,7 @@ test('the best flavor is grapefruit', () => {
 
 expect.extend({
   toBeWithinRange (received, floor, ceiling) {
+    // console.log(this, 'this:')
     const pass = received >= floor && received <= ceiling
     if (pass) {
       return {
@@ -54,7 +55,7 @@ function getExternalValueFromRemoteSource () {
 expect.extend({
   async toBeDivisibleByExternalValue (received) {
     const externalValue = await getExternalValueFromRemoteSource()
-    console.log('externalValue:', externalValue)
+    // console.log('externalValue:', externalValue)
     const pass = received % externalValue === 0
     if (pass) {
       return {
@@ -75,4 +76,19 @@ expect.extend({
 test('is divisible by external value', async () => {
   await expect(100).toBeDivisibleByExternalValue()
   await expect(101).not.toBeDivisibleByExternalValue()
+})
+
+const { diff } = require('jest-diff')
+
+// 自定义快照测试
+const { toMatchSnapshot } = require('jest-snapshot')
+
+expect.extend({
+  toMatchTrimmedSnapshot (received, length) {
+    return toMatchSnapshot.call(this, received.substring(0, length), 'toMatchTrimmedSnapshot')
+  }
+})
+
+it('stores only 10 characters', () => {
+  expect('extra long string oh my grd').toMatchTrimmedSnapshot(10)
 })
