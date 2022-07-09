@@ -19,6 +19,7 @@
 - [Jest 中的匹配器](#jest-中的匹配器)
   - [Using Matchers](#using-matchers)
   - [expect](#expect)
+  - [expect.extend(matchers)](#expectextendmatchers)
 
 ## 起步
 
@@ -274,3 +275,80 @@ toEqual，可以进行递归检查 object or array 的每一项
 
 ### expect
 当写测试时，你经常需要检查值是否满足指定的条件。 expect 让您可以访问一些“匹配器”，让您验证不同类型的东西
+
+### expect.extend(matchers)
+可以使用expect.extend将自己的 matcher 添加到 Jest
+
+```js
+expect.extend({
+  toBeWithinRange (received, floor, ceiling) {
+    console.log(this, 'this:')
+    const pass = received >= floor && received <= ceiling
+    if (pass) {
+      return {
+        message: () => `expected ${received} not to be within range ${floor}-${ceiling}`,
+        pass: true
+      }
+    } else {
+      return {
+        message: `expected ${received} to be within range ${floor} - ${ceiling}`,
+        pass: false
+      }
+    }
+  }
+})
+
+test('numeric ranges', () => {
+  expect(100).toBeWithinRange(90, 110)
+  expect(101).not.toBeWithinRange(0, 100)
+  expect({ apples: 6, bananas: 3 }).toEqual({
+    apples: expect.toBeWithinRange(1, 10),
+    bananas: expect.not.toBeWithinRange(11, 20)
+  })
+})
+```
+
+异步 Matcher
+
+```js
+function getExternalValueFromRemoteSource () {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(10)
+    })
+  })
+}
+
+expect.extend({
+  async toBeDivisibleByExternalValue (received) {
+    const externalValue = await getExternalValueFromRemoteSource()
+    console.log('externalValue:', externalValue)
+    const pass = received % externalValue === 0
+    if (pass) {
+      return {
+        message: () =>
+          `expected ${received} not to be divisible by ${externalValue}`,
+        pass: true
+      }
+    } else {
+      return {
+        message: () =>
+          `expected ${received} to be divisible by ${externalValue}`,
+        pass: false
+      }
+    }
+  }
+})
+
+test('is divisible by external value', async () => {
+  await expect(100).toBeDivisibleByExternalValue()
+  await expect(101).not.toBeDivisibleByExternalValue()
+})
+```
+
+自定义 Matcher API
+
+在自定义 Matcher 中，可以通过 this 来访问下列帮助函数与属性：
+
+- this.isNot 在matcher 之前是否调用了表示否定的 .not 修饰符
+- this.promise
