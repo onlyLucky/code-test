@@ -375,6 +375,20 @@ test("is divisible by external value", async () => {
 
 我们通过回调函数形式返回数据去测试
 
+```js
+test("the data is peanut butter", (done) => {
+  function callback(data) {
+    try {
+      expect(data).toBe("peanut butter");
+      done();
+    } catch (error) {
+      done(error);
+    }
+  }
+  fetchData(callback);
+});
+```
+
 - Jest 会等 done 回调函数执行结束后，结束测试
 - 若 done() 函数从未被调用，测试用例会正如你预期的那样执行失败（显示超时错误）
 - 若 expect 执行失败，它会抛出一个错误，后面的 done() 不再执行。 若我们想知道测试用例为何失败，我们必须将 expect 放入 try 中，将 error 传递给 catch 中的 done 函数
@@ -390,6 +404,16 @@ test("is divisible by external value", async () => {
 
 其实这个和上面的差别不大，只是这里使用了 expect 的匹配器进行了 promise 的一层转化
 
+```js
+test(".resolvers test", () => {
+  return expect(fetchExpectMatch(true)).resolves.toBe("peanut butter");
+});
+
+test(".rejects  test", () => {
+  return expect(fetchExpectMatch(false)).rejects.toMatch("error");
+});
+```
+
 - expect(fetchData()).resolves 是 promise 的 resolve 返回
 - expect(fetchData()).rejects 是 promise 的 reject 返回
 - 两者也需要返回一个 promise 的对象
@@ -397,5 +421,21 @@ test("is divisible by external value", async () => {
 ### Async / Await 方式
 
 async/await 实际上是语法糖，与 Promise 示例使用的逻辑相同
+
+```js
+test("Async / Await resolve", async () => {
+  const data = await fetchExpectMatch(true);
+  expect(data).toBe("peanut butter");
+});
+
+test("Async / Await reject", async () => {
+  expect.assertions(1);
+  try {
+    await fetchExpectMatch(false);
+  } catch (error) {
+    expect(error).toMatch("error");
+  }
+});
+```
 
 也可以将 asyn/await 和 .resolvers/.rejects 结合使用。
