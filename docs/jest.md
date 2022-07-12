@@ -25,6 +25,8 @@
   - [Promise 方式](#promise-方式)
   - [.resolvers / .rejects 匹配器](#resolvers--rejects-匹配器)
   - [Async / Await 方式](#async--await-方式)
+- [Jest 测试定时器](#jest-测试定时器)
+  - [基本用法](#基本用法)
 
 ## 起步
 
@@ -439,3 +441,42 @@ test("Async / Await reject", async () => {
 ```
 
 也可以将 asyn/await 和 .resolvers/.rejects 结合使用。
+
+## Jest 测试定时器
+
+组件可能会使用基于时间的函数如 setTimeout、setInterval 和 Date.now 等。在测试环境中，使用可以手动“推进”时间的替代物来模拟这些功能会很有帮助。它会确保你的测试快速运行！
+
+[Jest 测试定时器参考代码](../jestDemo/test/experience/setTimeout.test.js)
+
+### 基本用法
+
+```js
+function timeGame(callback) {
+  console.log("Ready...go!");
+  setTimeout(() => {
+    console.log("time's up -- stop");
+    callback && callback();
+  }, 1000);
+}
+// 通过jest.useFakeTimers();来模拟定时器函数
+jest.useFakeTimers();
+
+test("wait 1s before ending the game", () => {
+  timeGame();
+  // 验证定时器函数被调用的次数
+  expect(global.setTimeout).toHaveBeenCalledTimes(1);
+  // 验证定时器的时间是1s
+  expect(global.setTimeout).toHaveBeenLastCalledWith(
+    expect.any(Function),
+    1000
+  );
+});
+```
+
+由于 jest 版本更新对 fakeTimers 进行了更改,刚遇到一个 **[received value must be a mock or spy function]**报错
+
+下面解决方案，亲测可用
+
+首先需要在 jest.config.js 中配置 timers:'real'
+
+最后的代码修改可以查看上面的参考部分
