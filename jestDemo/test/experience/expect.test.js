@@ -3,7 +3,7 @@
  * @Author: fg
  * @Date: 2022-07-08 17:21:27
  * @LastEditors: fg
- * @LastEditTime: 2022-07-09 10:21:49
+ * @LastEditTime: 2022-07-12 10:17:15
  * @Description: expect
  */
 /* eslint-disable no-undef */
@@ -91,4 +91,32 @@ expect.extend({
 
 it('stores only 10 characters', () => {
   expect('extra long string oh my grd').toMatchTrimmedSnapshot(10)
+})
+
+const { toMatchInlineSnapshot } = require('jest-snapshot')
+
+function observe (fn) {
+  return new Promise((resolve) => {
+    resolve(fn())
+  })
+}
+// 异步快照
+expect.extend({
+  async toMatchObservationLineSnapshot (fn, ...rest) {
+    this.error = new Error()
+    const observation = await observe(async () => {
+      await fn()
+    })
+    return toMatchInlineSnapshot.call(this, 'async action', ...rest)
+  }
+})
+
+it('observes something', async () => {
+  /* 这个在执行前是
+  await expect(async () => {
+    return 'async action'
+  }).toMatchObservationLineSnapshot() */
+  await expect(async () => {
+    return 'async action'
+  }).toMatchObservationLineSnapshot('"async action"')
 })
