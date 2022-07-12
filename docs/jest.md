@@ -21,6 +21,10 @@
   - [expect](#expect)
   - [expect.extend(matchers)](#expectextendmatchers)
 - [Jest 测试异步代码](#jest-测试异步代码)
+  - [回调方式](#回调方式)
+  - [Promise 方式](#promise-方式)
+  - [.resolvers / .rejects 匹配器](#resolvers--rejects-匹配器)
+  - [Async / Await 方式](#async--await-方式)
 
 ## 起步
 
@@ -359,4 +363,39 @@ test("is divisible by external value", async () => {
 - this.isNot 在 matcher 之前是否调用了表示否定的 .not 修饰符
 - this.promise
 
+[expect 更多参考 Api](https://jestjs.io/zh-Hans/docs/expect)
+
 ## Jest 测试异步代码
+
+可以用来测试我们日常接口返回的值，下面介绍了几种日常开发的使用场景
+
+[异步测试代码参考](../jestDemo/test/experience/async.test.js)
+
+### 回调方式
+
+我们通过回调函数形式返回数据去测试
+
+- Jest 会等 done 回调函数执行结束后，结束测试
+- 若 done() 函数从未被调用，测试用例会正如你预期的那样执行失败（显示超时错误）
+- 若 expect 执行失败，它会抛出一个错误，后面的 done() 不再执行。 若我们想知道测试用例为何失败，我们必须将 expect 放入 try 中，将 error 传递给 catch 中的 done 函数
+- 如果我们不进行 try 捕获这个错误的话，同样也会返回一个错误，但是显示的是超时错误
+
+### Promise 方式
+
+在这里需要注意的是请求接口的方法，返回的一定要是一个 promise 对象，因为测试的地方需要一个 promise 进行`.then`获取成功回调后的数据
+
+- 我们也可以使用`.catch`,来测试这个是失败的，不过这个应该很少使用
+
+### .resolvers / .rejects 匹配器
+
+其实这个和上面的差别不大，只是这里使用了 expect 的匹配器进行了 promise 的一层转化
+
+- expect(fetchData()).resolves 是 promise 的 resolve 返回
+- expect(fetchData()).rejects 是 promise 的 reject 返回
+- 两者也需要返回一个 promise 的对象
+
+### Async / Await 方式
+
+async/await 实际上是语法糖，与 Promise 示例使用的逻辑相同
+
+也可以将 asyn/await 和 .resolvers/.rejects 结合使用。
