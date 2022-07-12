@@ -24,7 +24,7 @@ module.exports = {
   // collectCoverageFrom: undefined,
 
   // 测试覆盖率报错文件输出的目录
-  coverageDirectory: 'coverage'
+  coverageDirectory: 'coverage',
 
   // 忽略测试覆盖率统计
   // coveragePathIgnorePatterns: [
@@ -170,7 +170,7 @@ module.exports = {
   // testURL: "http://localhost",
 
   // Setting this value to "fake" allows the use of fake timers for functions such as "setTimeout"
-  // timers: "real",
+  timers: 'real'
 
   // A map from regular expressions to paths to transformers
   // transform: undefined,
