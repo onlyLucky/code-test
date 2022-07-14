@@ -27,6 +27,8 @@
   - [Async / Await 方式](#async--await-方式)
 - [Jest 测试定时器](#jest-测试定时器)
   - [基本用法](#基本用法)
+  - [快进所有时间](#快进所有时间)
+  - [解决循环定时器问题](#解决循环定时器问题)
 
 ## 起步
 
@@ -480,3 +482,30 @@ test("wait 1s before ending the game", () => {
 首先需要在 jest.config.js 中配置 timers:'real'
 
 最后的代码修改可以查看上面的参考部分
+
+### 快进所有时间
+
+用于在测试中将时间“快进”到正确的时间点
+
+```js
+test("calls the callback after 1 second", () => {
+  const timerGame = require("../timerGame");
+  const callback = jest.fn();
+
+  timerGame(callback);
+
+  // 在这个时间点，定时器的回调不应该被执行
+  expect(callback).not.toBeCalled();
+
+  // “快进”时间使得所有定时器回调被执行
+  jest.runAllTimers();
+
+  // 现在回调函数应该被调用了！
+  expect(callback).toBeCalled();
+  expect(callback).toHaveBeenCalledTimes(1);
+});
+```
+
+### 解决循环定时器问题
+
+在某些场景下你可能还需要“循环定时器”——在定时器的 callback 函数中再次设置一个新定时器。 对于这种情况，如果将定时器一直运行下去那将陷入死循环，所以在此场景下不应该使用 jest.runAllTimers(),这种场景下可以使用`jest.runOnlyPendingTimers()`
