@@ -30,6 +30,7 @@
   - [快进所有时间](#快进所有时间)
   - [解决循环定时器问题](#解决循环定时器问题)
 - [Jest 中的 Mock 函数](#jest-中的-mock-函数)
+  - [Mock 函数常用方法：](#mock-函数常用方法)
 
 ## 起步
 
@@ -533,4 +534,155 @@ jest.advanceTimersByTime(1000);
 // 清除所有定时器
 jest.clearAllTimers();
 ```
+
 ## Jest 中的 Mock 函数
+
+有两种方法可以模拟函数：要么在测试代码中创建一个 mock 函数，要么编写一个手动 mock 来覆盖模块依赖。
+
+所有的 mock 函数都有这个特殊的 .mock 属性，它保存了关于此函数如何被调用、调用时的返回值的信息。 .mock 属性还追踪每次调用时 this 的值，所以我们同样可以也检视（inspect） this：
+
+### Mock 函数常用方法：
+
+```js
+const mockFn = jest.fn();
+
+const a = new mockFn();
+const b = new mockFn();
+
+mockFn.mock.instances[0] === a; // true
+mockFn.mock.instances[1] === b; // true
+```
+
+1. mockFn.mockName(value)：设置 mock 函数的名字
+2. mockFn.getMockName()： 返回 mockFn.mockName(value)中设置的名字
+3. mockFn.mock.calls：mock 函数的调用信息
+
+`mockFn.mock.calls`返回一个数组，数组中的每一个元素又是一个数组，包含 mock 函数的调用信息。比如，一个被调用两次的模拟函数 f，参数为 f('arg1'，'arg2')，然后使用参数 f('arg3'，'arg4')，mockFn.mock.calls 返回的数组形式如下：
+
+> [['arg1', 'arg2'], ['arg3', 'arg4']]
+
+因此，`mockFn.mock.calls.length`代表`mock`函数被调用次数，`mockFn.mock.calls[0][0]`代表第一次调用传入的第一个参数，以此类推。
+
+4. mockFn.mock.results：mock 函数的 return 值，以数组存储
+5. mockFn.mock.instances：mock 函数实例
+6. mockFn.mockImplementation(fn)：创建一个 mock 函数
+
+   > jest.fn(implementation)是 jest.fn().mockImplementation(implementation)的简写。
+
+7. mockFn.mockImplementationOnce(fn)：创建一个 mock 函数
+
+该函数将用作对 mocked 函数的一次调用的 mock 的实现。可以链式调用，以便多个函数调用产生不同的结果。
+
+```js
+const myMockFn = jest
+  .fn()
+  .mockImplementationOnce((cb) => cb(null, true))
+  .mockImplementationOnce((cb) => cb(null, false));
+
+myMockFn((err, val) => console.log(val)); // true
+
+myMockFn((err, val) => console.log(val)); // false
+```
+
+8. mockFn.mockReturnThis()：jest.fn()的语法糖
+   ```js
+   jest.fn(function () {
+     return this;
+   });
+   ```
+9. mockFn.mockReturnValue(value)：接受一个值作为调用 mock 函数时的返回值
+
+```js
+const mock = jest.fn();
+mock.mockReturnValue(42);
+mock(); // 42
+mock.mockReturnValue(43);
+mock(); // 43
+```
+
+10. mockFn.mockReturnValueOnce(value)：接受一个值作为调用 mock 函数时的返回值，可以链式调用，以便产生不同的结果。
+
+```js
+const myMockFn = jest
+  .fn()
+  .mockReturnValue("default")
+  .mockReturnValueOnce("first call")
+  .mockReturnValueOnce("second call");
+
+// 'first call', 'second call', 'default', 'default'
+console.log(myMockFn(), myMockFn(), myMockFn(), myMockFn());
+```
+
+11. ockFn.mockResolvedValue(value)：mock 异步函数的语法糖
+
+    ```js
+    jest.fn().mockImplementation(() => Promise.resolve(value));
+    ```
+
+    用于在 test 中模拟异步函数
+
+    ```js
+    test("async test", async () => {
+      const asyncMock = jest.fn().mockResolvedValue(43);
+
+      await asyncMock(); // 43
+    });
+    ```
+
+12. mockFn.mockResolvedValueOnce(value)：语法糖
+
+实现类似于
+
+```js
+jest.fn().mockImplementationOnce(() => Promise.resolve(value));
+test("async test", async () => {
+  const asyncMock = jest
+    .fn()
+    .mockResolvedValue("default")
+    .mockResolvedValueOnce("first call")
+    .mockResolvedValueOnce("second call");
+
+  await asyncMock(); // first call
+  await asyncMock(); // second call
+  await asyncMock(); // default
+  await asyncMock(); // default
+});
+```
+13. mockFn.mockRejectedValue(value)：语法糖
+    ```js
+    jest.fn().mockImplementation(() => Promise.reject(value));
+    test('async test', async () => {
+      const asyncMock = jest.fn().mockRejectedValue(new Error('Async error'));
+
+      await asyncMock(); // throws "Async error"
+    });
+    ```
+14. mockFn.mockRejectedValueOnce(value)：语法糖
+    ```js
+    jest.fn().mockImplementationOnce(() => Promise.reject(value));
+    test('async test', async () => {
+      const asyncMock = jest
+        .fn()
+        .mockResolvedValueOnce('first call')
+        .mockRejectedValueOnce(new Error('Async error'));
+
+      await asyncMock(); // first call
+      await asyncMock(); // throws "Async error"
+    });
+    ```
+15. mockFn.mockClear()：重置所有存储在mockFn.mock.calls 和 mockFn.mock.instances数组中的信息
+
+    当你想要清除两个断言之间的模拟使用数据时，这通常很有用。
+
+16. mockFn.mockReset()：完成mockFn.mockClear()所做的所有事情，还删除任何模拟的返回值或实现
+
+    当你想要将模拟完全重置回其初始状态时，这非常有用。（请注意，重置spy将导致函数没有返回值）。
+
+17. mockFn.mockRestore()：完成mockFn.mockReset()所做的所有事情，并恢复原始（非模拟）实现
+
+    当你想在某些测试用例中模拟函数并在其他测试用例中恢复原始实现时，这非常有用。
+
+
+
+
+
