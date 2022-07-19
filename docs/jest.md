@@ -29,6 +29,7 @@
   - [基本用法](#基本用法)
   - [快进所有时间](#快进所有时间)
   - [解决循环定时器问题](#解决循环定时器问题)
+- [Jest 中的 Mock 函数](#jest-中的-mock-函数)
 
 ## 起步
 
@@ -509,3 +510,27 @@ test("calls the callback after 1 second", () => {
 ### 解决循环定时器问题
 
 在某些场景下你可能还需要“循环定时器”——在定时器的 callback 函数中再次设置一个新定时器。 对于这种情况，如果将定时器一直运行下去那将陷入死循环，所以在此场景下不应该使用 jest.runAllTimers(),这种场景下可以使用`jest.runOnlyPendingTimers()`
+
+```js
+// 使用模拟定时器
+jest.useFakeTimers();
+
+// 验证定时器函数被调用的次数
+expect(setTimeout).toHaveBeenCalledTimes(1);
+
+// 验证定时器的时间是 1s
+expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1000);
+
+// 快进所有定时器结束
+jest.runAllTimers();
+
+// 解决定时器循环问题
+jest.runOnlyPendingTimers();
+
+// 快进定时器到指定时间
+jest.advanceTimersByTime(1000);
+
+// 清除所有定时器
+jest.clearAllTimers();
+```
+## Jest 中的 Mock 函数
