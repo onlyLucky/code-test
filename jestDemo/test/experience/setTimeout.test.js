@@ -4,7 +4,7 @@
  * @Author: fg
  * @Date: 2022-07-12 13:36:47
  * @LastEditors: fg
- * @LastEditTime: 2022-07-14 20:02:18
+ * @LastEditTime: 2022-07-18 14:08:53
  * @Description: Jest 测试定时器
  */
 
@@ -48,7 +48,7 @@ test('calls the callback after 1 second', () => {
   expect(callback).toHaveBeenCalledTimes(1)
 })
 
-describe('infiniteTimerGame', () => {
+/* describe('infiniteTimerGame', () => {
   test('schedules a 10-second timer after 1 second', () => {
     const infiniteTimerGame = require('../../src/experience/testTime/infiniteTimerGame')
     const callback = jest.fn()
@@ -63,4 +63,4 @@ describe('infiniteTimerGame', () => {
     expect(global.setTimeout).toHaveBeenCalledTimes(2)
     expect(global.setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 10000)
   })
-})
+}) */
