@@ -31,6 +31,8 @@
   - [解决循环定时器问题](#解决循环定时器问题)
 - [Jest 中的 Mock 函数](#jest-中的-mock-函数)
   - [Mock 函数常用方法：](#mock-函数常用方法)
+- [Jest 中的钩子函数](#jest-中的钩子函数)
+  - [常见的钩子函数](#常见的钩子函数)
 
 ## 起步
 
@@ -648,41 +650,62 @@ test("async test", async () => {
   await asyncMock(); // default
 });
 ```
+
 13. mockFn.mockRejectedValue(value)：语法糖
+
     ```js
     jest.fn().mockImplementation(() => Promise.reject(value));
-    test('async test', async () => {
-      const asyncMock = jest.fn().mockRejectedValue(new Error('Async error'));
+    test("async test", async () => {
+      const asyncMock = jest.fn().mockRejectedValue(new Error("Async error"));
 
       await asyncMock(); // throws "Async error"
     });
     ```
+
 14. mockFn.mockRejectedValueOnce(value)：语法糖
+
     ```js
     jest.fn().mockImplementationOnce(() => Promise.reject(value));
-    test('async test', async () => {
+    test("async test", async () => {
       const asyncMock = jest
         .fn()
-        .mockResolvedValueOnce('first call')
-        .mockRejectedValueOnce(new Error('Async error'));
+        .mockResolvedValueOnce("first call")
+        .mockRejectedValueOnce(new Error("Async error"));
 
       await asyncMock(); // first call
       await asyncMock(); // throws "Async error"
     });
     ```
-15. mockFn.mockClear()：重置所有存储在mockFn.mock.calls 和 mockFn.mock.instances数组中的信息
+
+15. mockFn.mockClear()：重置所有存储在 mockFn.mock.calls 和 mockFn.mock.instances 数组中的信息
 
     当你想要清除两个断言之间的模拟使用数据时，这通常很有用。
 
-16. mockFn.mockReset()：完成mockFn.mockClear()所做的所有事情，还删除任何模拟的返回值或实现
+16. mockFn.mockReset()：完成 mockFn.mockClear()所做的所有事情，还删除任何模拟的返回值或实现
 
-    当你想要将模拟完全重置回其初始状态时，这非常有用。（请注意，重置spy将导致函数没有返回值）。
+    当你想要将模拟完全重置回其初始状态时，这非常有用。（请注意，重置 spy 将导致函数没有返回值）。
 
-17. mockFn.mockRestore()：完成mockFn.mockReset()所做的所有事情，并恢复原始（非模拟）实现
+17. mockFn.mockRestore()：完成 mockFn.mockReset()所做的所有事情，并恢复原始（非模拟）实现
 
     当你想在某些测试用例中模拟函数并在其他测试用例中恢复原始实现时，这非常有用。
 
+## Jest 中的钩子函数
 
+如果测试用例中需要使用到某个对象 或 在执行测试代码的某个时刻需要做一些必要的处理，直接在测试文件中写基础代码是不推荐的，可以使用 jest 的钩子函数
 
+钩子函数的作用：在代码执行的某个时刻，会自动运行的一个函数。
 
+### 常见的钩子函数
 
+- beforeAll 在所有测试用例执行之前执行
+- beforeEach 每个测试用例执行前执行，可让每个测试用例中使用的变量互不影响，因为分别为每个测试用例实例化了一个对象
+- afterAll 等所有测试用例都执行之后执行 ，可以在测试用例执行结束时，做一些处理
+- afterEach 每个测试用例执行结束时，做一些处理
+
+beforeEach 这些钩子，是属于 describe 的（作用域），我们可以在子的 describe 中也增加 钩子，且它的生效范围为它下的所有的测试用例。
+
+**describe 和 test 块的执行顺序**
+
+Jest 会在所有真正的测试开始之前执行测试文件里所有的 describe 处理程序（handlers）。 这是在 before* 和 after* 处理程序里面 （而不是在 describe 块中）进行准备工作和整理工作的另一个原因。 当 describe 块运行完后,，默认情况下，Jest 会按照 test 出现的顺序
+
+> 不要把准备性的代码写到 describe 中，一定要放到钩子函数中
