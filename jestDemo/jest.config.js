@@ -18,10 +18,12 @@ module.exports = {
   clearMocks: true,
 
   // 是否收集测试覆盖率信息
-  // collectCoverage: false,
+  collectCoverage: true,
 
   // 一个 glob 模式数组，指示应该为其收集覆盖率信息的一组文件
-  // collectCoverageFrom: undefined,
+  collectCoverageFrom: [
+    
+  ],
 
   // 测试覆盖率报错文件输出的目录
   coverageDirectory: 'coverage',
@@ -138,7 +140,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // testEnvironment: "jest-environment-jsdom",
+  // testEnvironment: 'jest-environment-jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
