@@ -5,6 +5,8 @@
 
 module.exports = {
 
+  preset: 'ts-jest',
+
   // 自动清除mock
   clearMocks: true,
 
