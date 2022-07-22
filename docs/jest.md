@@ -36,6 +36,7 @@
 - [Jest 快照测试](#jest-快照测试)
 - [Jest 测试 DOM 节点](#jest-测试-dom-节点)
 - [jest 测试覆盖率](#jest-测试覆盖率)
+- [参考链接](#参考链接)
 
 ## 起步
 
@@ -724,3 +725,26 @@ Jest 会在所有真正的测试开始之前执行测试文件里所有的 descr
 ## jest 测试覆盖率
 
 测试覆盖率(test coverage)是衡量软件测试完整性的一个重要指标。掌握测试覆盖率数据，有利于客观认识软件质量，正确了解测试状态，有效改进测试工作。
+
+```js
+module.exports = {
+
+  preset: 'ts-jest',
+
+  // 自动清除mock
+  clearMocks: true,
+
+  // 开启覆盖率
+  collectCoverage: true,
+  // 指定生成覆盖率报告文件存放位置
+  coverageDirectory: 'coverage',
+  // Indicates which provider should be used to instrument code for coverage
+  coverageProvider: 'v8'
+}
+```
+
+
+
+## 参考链接
+
+[Jest 实践指南](https://github.yanhaixiang.com/jest-tutorial/)
