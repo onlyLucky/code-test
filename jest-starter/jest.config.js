@@ -3,6 +3,8 @@
  * https://jestjs.io/docs/configuration
  */
 
+const { pathsToModuleNameMapper } = require('ts-jest/utils')
+
 module.exports = {
 
   preset: 'ts-jest',
@@ -16,5 +18,8 @@ module.exports = {
   coverageDirectory: 'coverage',
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',
-  moduleDirectories: ['node_modules', 'src']
+  // moduleDirectories: ['node_modules', 'src']
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/src/$1'
+  }
 }
