@@ -15,5 +15,6 @@ module.exports = {
   // 指定生成覆盖率报告文件存放位置
   coverageDirectory: 'coverage',
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: 'v8'
+  coverageProvider: 'v8',
+  moduleDirectories: ['node_modules', 'src']
 }
