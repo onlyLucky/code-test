@@ -12,6 +12,8 @@ module.exports = {
 
   // 自动清除mock
   clearMocks: true,
+  // 添加测试环境
+  testEnvironment: 'jsdom',
 
   // 开启覆盖率
   collectCoverage: true,
@@ -25,5 +27,7 @@ module.exports = {
   } */
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/'
-  })
+  }),
+  // 安装测试框架之后 执行的代码
+  setupFilesAfterEnv: ['./tests/jest-setup.ts']
 }
