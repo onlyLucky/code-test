@@ -4,6 +4,7 @@
  */
 
 const { pathsToModuleNameMapper } = require('ts-jest/utils')
+const { compilerOptions } = require('./tsconfig')
 
 module.exports = {
 
@@ -19,7 +20,10 @@ module.exports = {
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',
   // moduleDirectories: ['node_modules', 'src']
-  moduleNameMapper: {
+  /* moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1'
-  }
+  } */
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: '<rootDir>/'
+  })
 }
