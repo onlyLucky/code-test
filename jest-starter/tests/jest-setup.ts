@@ -2,7 +2,7 @@
  * @Author: fg
  * @Date: 2022-07-23 11:21:48
  * @LastEditors: fg
- * @LastEditTime: 2022-07-25 15:30:45
+ * @LastEditTime: 2022-07-25 17:35:48
  * @Description: 全局 Mock
  */
 // 使用 Jest 的 Spy 和扩展 expect 来 Mock `window.location`
@@ -26,3 +26,9 @@ Object.defineProperty(global, 'localStorage', {
   },
   configurable: true
 })
+
+// 把 Logger 给 Mock 掉
+jest.spyOn(console, 'log').mockReturnValue();
+jest.spyOn(console, 'info').mockReturnValue();
+jest.spyOn(console, 'warn').mockReturnValue();
+jest.spyOn(console, 'error').mockReturnValue();
