@@ -13,7 +13,9 @@ module.exports = {
   // 自动清除mock
   clearMocks: true,
   // 添加测试环境
-  testEnvironment: 'jsdom',
+  // testEnvironment: 'jsdom',
+  // testEnvironment: 'jest-environment-jsdom-global',
+  testEnvironment: 'jsdom', // 改回来
 
   // 开启覆盖率
   collectCoverage: true,
