@@ -2,9 +2,10 @@
  * @Author: fg
  * @Date: 2022-07-26 15:43:52
  * @LastEditors: fg
- * @LastEditTime: 2022-07-26 16:03:55
+ * @LastEditTime: 2022-07-26 21:15:26
  * @Description: content
  */
+import { Row,Col } from 'antd';
 import React, {CSSProperties, FC} from 'react';
 
 interface Props {
@@ -31,9 +32,23 @@ const styleMapper: Record<'small'|'large',CSSProperties> = {
 }
 
 // 组件
-const Title: FC<Props> = (props) => {
+/* const Title: FC<Props> = (props) => {
   const {type, title} = props;
   return <p style={styleMapper[type]}>{title}</p>
+} */
+const Title: FC<Props> = (props) => {
+  const {type, title} = props
+
+  return (
+    <Row style={styleMapper[type]}>
+      <Col>
+        第一个Col
+      </Col>
+      <Col>
+        <div>{title}</div>
+      </Col>
+    </Row>
+  )
 }
 
 export default Title

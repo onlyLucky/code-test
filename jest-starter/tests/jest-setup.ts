@@ -2,7 +2,7 @@
  * @Author: fg
  * @Date: 2022-07-23 11:21:48
  * @LastEditors: fg
- * @LastEditTime: 2022-07-25 17:38:51
+ * @LastEditTime: 2022-07-26 21:39:47
  * @Description: 全局 Mock
  */
 // 使用 Jest 的 Spy 和扩展 expect 来 Mock `window.location`
@@ -26,6 +26,20 @@ Object.defineProperty(global, 'localStorage', {
     }
   },
   configurable: true
+})
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn()
+  }))
 })
 
 // 把 Logger 给 Mock 掉
