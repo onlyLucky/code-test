@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "baseUrl": "./",
     "paths": {
       "utils/*": ["src/utils/*"],
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "components/*": ["src/components/*"],
+      "apis/*": ["src/apis/*"],
+      "hooks/*": ["src/hooks/*"],
+      "store/*": ["src/store/*"]
     },
     "types": ["node", "jest"],
     "target": "es2016",
