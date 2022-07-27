@@ -2,7 +2,7 @@
  * @Author: fg
  * @Date: 2022-07-26 15:43:52
  * @LastEditors: fg
- * @LastEditTime: 2022-07-26 21:15:26
+ * @LastEditTime: 2022-07-27 13:28:36
  * @Description: content
  */
 import { Row,Col } from 'antd';
@@ -41,10 +41,10 @@ const Title: FC<Props> = (props) => {
 
   return (
     <Row style={styleMapper[type]}>
-      <Col>
+      <Col span={24}>
         第一个Col
       </Col>
-      <Col>
+      <Col span={24}>
         <div>{title}</div>
       </Col>
     </Row>
