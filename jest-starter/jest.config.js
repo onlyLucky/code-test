@@ -31,5 +31,9 @@ module.exports = {
     prefix: '<rootDir>/'
   }),
   // 安装测试框架之后 执行的代码
-  setupFilesAfterEnv: ['./tests/jest-setup.ts']
+  setupFilesAfterEnv: ['./tests/jest-setup.ts'],
+  // 转换文件
+  transform: {
+    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub'
+  }
 }

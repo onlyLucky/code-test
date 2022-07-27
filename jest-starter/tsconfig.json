@@ -10,7 +10,7 @@
       "hooks/*": ["src/hooks/*"],
       "store/*": ["src/store/*"]
     },
-    "types": ["node", "jest"],
+    "types": ["node", "jest","@testing-library/jest-dom"],
     "target": "es2016",
     "module": "commonjs",
     "esModuleInterop": true,

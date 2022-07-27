@@ -2,12 +2,13 @@
  * @Author: fg
  * @Date: 2022-07-23 11:21:48
  * @LastEditors: fg
- * @LastEditTime: 2022-07-26 21:39:47
+ * @LastEditTime: 2022-07-27 14:34:08
  * @Description: 全局 Mock
  */
 // 使用 Jest 的 Spy 和扩展 expect 来 Mock `window.location`
 import "jest-location-mock";
-import mockConsole from "jest-mock-console";
+import mockConsole from "jest-mock-console";//logger 过滤
+import '@testing-library/jest-dom'//关于 DOM 的 Matcher API
 
 Object.defineProperty(global, 'localStorage', {
   value: {
