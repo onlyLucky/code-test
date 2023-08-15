@@ -13,8 +13,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "eslint": "^8.20.0",
-    "standard": "^17.0.0"
+    "@types/jest": "^27.5.1"
   }
 }
